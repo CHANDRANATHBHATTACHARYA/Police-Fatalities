@@ -1,0 +1,207 @@
+---
+title: "My R Markdown Document"
+output:
+  pdf_document:
+    latex_engine: xelatex
+  html_document:
+    df_print: paged
+---
+
+##### -
+
+\-\-- \-\--
+
+------------------------------------------------------------------------
+
+# title: '"Justice Under Fire : Analyzing Police Fatalities and innocent Lives Lost"'
+
+## author: "Chandranath Bhattacharya"
+
+## date: "2023-09-16"
+
+## #Introduction
+
+In the pursuit of justice and the preservation of public safety, the actions of law enforcement agencies are subject to intense scrutiny and debate. Over recent years, concerns surrounding police fatalities, police-involved killings, and the tragic loss of innocent lives during encounters with the police have become increasingly prominent in public discourse. This project aims to shed light on these critical issues by examining and analyzing data-sets related to police fatalities. It seeks to uncover patterns, trends, and insights that can contribute to a deeper understanding of the complex dynamics surrounding law enforcement interactions and their consequences. Our analysis will delve into various aspects, including the circumstances of police-involved incidents, demographic information of those affected, and the geographic distribution of such events. By doing so, we aim to provide a comprehensive overview of the challenges, disparities, and potential areas for reform within the criminal justice system.
+
+Through data-driven exploration and visualization, this project aspires to foster informed discussions and promote constructive dialogue around police-related fatalities. Ultimately, our goal is to contribute to the ongoing efforts to ensure justice, transparency, and accountability in policing practices while working towards a safer and more equitable society.
+
+## #Data Sets and Variables
+
+We have used following data sets :
+
+##### 1. Innocent Deaths caused by Police (All time) :
+
+The data-set was created by Fatal Encounters. The data-set contains incidents in which an individual meets death during an encounter with law enforcement officials. There are various type of homicide details of people , some of them were caused by police and some of them were directly not (but in most of the cases police was involved directly or indirectly).
+
+##### Variables:
+
+This data set contains Age , Gender of the people.(Note: This data set also contains the name and address of people who were injured by police , but it will not be very efficient variables to analyze data).
+
+##### Source of Data: Kaggle
+
+Link : <https://www.kaggle.com/datasets/kannan1314/innocent-deaths-caused-by-police-all-time>
+
+##### 2.Police fatalities from 2000 to 2016:
+
+This data-set aims to provide insight into individuals who were killed during altercations with police. It includes information on their age,race,mental health status,weapons they were armed with,and if they were fleeing.
+
+##### Variables:
+
+Age of individuals who were killed,Date(Month,year etc.),Location etc.(You can see in the data set there are many information about the killings e.g name of the killed person , but clearly it is not a very good choice to do the analysis of the data using this variables.)
+
+##### Source of data: Kaggle
+
+##### Link: <https://www.kaggle.com/datasets/hamdallak/police-fatalities-from-2000-to-2016>
+
+##### 3. Police Killings:
+
+This data set contains information about Americans who were killed by police in 2015.
+
+##### Variables:
+
+As the previous two data sets this data set contain information of the individual Americans using their age , gender ,time of killing(some information about their identity e.g.name).
+
+##### Source of data: Kaggle
+
+##### Link: <https://www.kaggle.com/datasets/mysarahmadbhat/police-killings/discussion>
+
+##### Analysis
+
+```{r,echo=FALSE,message=FALSE,warning=FALSE}
+library(readr)
+mydata1 <- read_csv("Innocent Deaths caused by Police (All time).csv")
+```
+
+##### By the following Plot we are trying to understand the relation between the killed Persons and their age.
+
+```{r,echo=FALSE}
+hist(mydata1$Age,xlab="AGE",ylab="NUMBER OF KILLED",col="yellow",main="NUMBER OF KILLED PEOPLE OF DIFFERERNT AGES")
+```
+
+##### CONCLUSION:
+
+From the above histogram it is very clear that between 20 years to 40 years old people were killed most by the police. As the age cross 60 years then the number of killings decreases dramatically. Similarly below ages go below 20 years then also the number of killed people decreases drastically.
+
+So the people aged between 20 to 60 years were the unfortunate most to be killed by the police.
+
+##### Now we are going to compare the gender of the killed people:
+
+```{r,echo=FALSE}
+table(mydata1$Gender)
+```
+
+##### Conclusion:
+
+So from the above data we can conclude that , males were killed the most. With respect to the number of killed males number of killed females is too know. And in this case the number of killed transgenders is avoidable(Though every life matters).
+
+##### Police fatalities from 2000 to 2016:
+
+```{r,echo=FALSE,eval=TRUE,include=FALSE}
+library(readr)
+mydata2 <- read_csv("PoliceFatalities2.csv")
+```
+
+```{r,echo=FALSE}
+hist(mydata2$Year,col="red",xlab="YEAR",ylab="NUMBER OF KILLED",main="NUMBER OF KILLINGS In RESPECTIVE YEARS")
+```
+
+##### Conclusion:
+
+Number of killings in the year 2000 was more than it's after 5 consequtive years.
+
+After the year 200 number of killings decreased till the year 2006, but after that number of killings increased. After the year 2013 the increase of number of killings was notable. In that era number of killings was at it's peak.
+
+```{r,echo=FALSE}
+table(mydata2$Year)
+
+```
+
+At the year 2015 the number of killings was highest.
+
+```{r,echo=FALSE,message=FALSE,warning=FALSE}
+library(plotly)
+fig=plot_ly(data = mydata2, labels =mydata2$State, type = 'pie') %>%
+  layout(title = "PERCENTAGE OF DEATHS IN VARIOUS STATE")
+fig
+```
+
+##### Conclusion
+
+From the above pie chart it is very much clear that in California police fatality is maximum ,the second maximum killing was in Texas and the third highest police killings was in Florida followed by the other states.
+
+Now we are going to discuss about the Americans who were killed by the police in 2015.
+
+```{r,echo=FALSE,eval=TRUE,include=FALSE}
+mydata3 <- read_csv("police_killings.csv")
+```
+
+```{r,echo=FALSE}
+table(mydata3$raceethnicity)
+```
+
+##### Conclusion:
+
+From the table it is very much clear that in 2015 white Americans were killed the most by police. And number of killed Native Americans was the lowest among all .
+
+```{r,echo=FALSE}
+month_counts <- table(mydata3$month)
+barplot(month_counts, 
+        main = "Number of DEATHS of Each Month",
+        xlab = "Month",
+        ylab = "NUMBER OF DEATHS",
+        col = "skyblue")
+
+```
+
+##### Conclusion:
+
+From the above bar-plot it is very much clear in 2015 ,at America in the month of MARCH the number of killings were at it's peak and in the month of JUNE number of killed people was at it's minimum.
+
+##### Number of killed men vs women
+
+```{r,echo=FALSE}
+table(mydata3$gender)
+```
+
+Number of killed men was much higher than number of killed women
+
+```{r,echo=FALSE}
+library(plotly)
+plot_ly(data = mydata3, labels =mydata3$age, type = 'pie') %>%
+  layout(title = "PERCENTAGE OF DEATHS IN VARIOUS AGES")
+```
+
+##### Conclusion:
+
+From the above pie chart it is very much clear that the people whose ages are between 29 and 35 were killed the most. Number of people of other ages who were killed by police is effectively less than the number of people in this age range.
+
+We can also visualize number of deaths in each states of America. From that information we can be aware of Police Fatalities in various states of America.
+
+```{r,echo=FALSE}
+state_counts <- table(mydata3$state)
+state_data <- data.frame(state = names(state_counts), deaths = as.numeric(state_counts))
+library(plotly)
+fig <- plot_ly(data = state_data, 
+               locations = ~state, 
+               z = ~deaths, 
+               locationmode = "USA-states", 
+               type = "choropleth", 
+               colorscale = "Viridis",
+               colorbar = list(title = "Number of Deaths"))
+fig <- fig %>% layout(title = "Number of Deaths by State",
+                      geo = list(scope = "usa"))
+
+fig
+```
+
+##### CONCLUSION
+
+From the above map we can visualize number of deaths caused by police in various states of America. You can see that number of deaths in California(CA) was the most(a total of 74 deaths) , followed by followed by Texas(46 deaths) and Florida(25 deaths).
+
+So, till this point we have done exploratory data analysis of various police fatalities and police killings and have tried to understand about police fatalities and number of killed people in various states . We have also tried to understood the various age group of people who were killed by the police and many more thing .Some other information can also be extracted from the data sets we have used to do this project.
+
+But it was a brief introductory data analysis and we have pointed out the most effective things that can be pointed out.
+
+##### This is the end of the project.
+
+#### Thank you. 
